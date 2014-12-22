@@ -127,7 +127,7 @@ vector<point> GrahamScan(vector<point> v) {
 
 // The monotone chain algorithm for convex hull.
 vector<point> monotoneChain(vector<point> v) {
-	// Sort out points in lexicographic order.
+	// Sort our points in lexicographic order.
 	sort(v.begin(), v.end(), isLeftOf);
 	
 	// Find the lower half of the convex hull.
@@ -152,6 +152,8 @@ vector<point> monotoneChain(vector<point> v) {
 
 	vector<point> hull;
 	hull.insert(hull.end(), lower.begin(), lower.end());
+	// Both hulls include both endpoints, so leave them out when we 
+	// append the upper hull.
 	hull.insert(hull.end(), upper.begin() + 1, upper.end() - 1);
 	return hull;
 }
