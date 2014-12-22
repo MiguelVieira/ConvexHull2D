@@ -68,29 +68,19 @@ size_t getFarthest(const point& a, const point& b, const vector<point>& v) {
 
 // The gift-wrapping algorithm for convex hull.
 // https://en.wikipedia.org/wiki/Gift_wrapping_algorithm
-vector<point> giftWrapping(const vector<point>& v) {
-	// Start with the leftmost point.
-	size_t startIdx = min_element(v.begin(), v.end(), isLeftOf) - v.begin();
-	size_t hIdx = startIdx;
+vector<point> giftWrapping(vector<point> v) {
+	// Move the leftmost point to the beginning of our vector.
+	// It will be the first point in our convext hull.
+	swap(v[0], *min_element(v.begin(), v.end(), isLeftOf));
 
 	vector<point> hull;
+	// Repeatedly find the first ccw point from our last hull point
+	// and put it at the front of our array. 
+	// Stop when we see our first point again.
 	do {
-		// Add our current point to the hull.
-		hull.push_back(v[hIdx]);
-
-		// Find the index of the input point that is farthest
-		// ccw from our last hull point.
-		ccwSorter isCcw(v[hIdx]);
-		size_t endIdx = 0;
-		for (size_t i = 1; i < v.size(); ++i) {
-			if ((endIdx == hIdx) || isCcw(v[endIdx], v[i])) {
-				endIdx = i;
-			}
-		}
-
-		// Make that our new 
-		hIdx = endIdx;
-	} while (hIdx != startIdx);
+		hull.push_back(v[0]);
+		swap(v[0], *min_element(v.begin() + 1, v.end(), ccwSorter(v[0])));
+	} while (v[0].x != hull[0].x && v[0].y != hull[0].y);
 
 	return hull;
 }
