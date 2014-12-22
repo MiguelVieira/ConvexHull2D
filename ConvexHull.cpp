@@ -1,3 +1,8 @@
+// Implementations of various convex hull algorithms 
+// using the C++ Standard Library.
+// For clarity, the implementations do not check for
+// duplicate or collinear points.
+
 #include <algorithm>
 #include <iostream>
 #include <vector>
